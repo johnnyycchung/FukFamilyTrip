@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 九州家族之旅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 隱藏捲軸但保持可滑動 */
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif; }
+        
+        /* 過渡動畫 */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .slide-right { animation: slideRight 0.3s ease-out; }
+        @keyframes slideRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* 食物可愛背景圖案 */
+        .food-bg {
+            background-color: #fff4e6;
+            background-image: radial-gradient(#ffb3ba 10%, transparent 11%), radial-gradient(#ffdfba 10%, transparent 11%), radial-gradient(#ffffba 10%, transparent 11%);
+            background-size: 30px 30px, 40px 40px, 50px 50px;
+            background-position: 0 0, 15px 15px, 25px 25px;
+            opacity: 0.9;
+        }
+        
+        /* 逛街可愛背景圖案 */
+        .shop-bg {
+            background-color: #f0f7f4;
+            background-image: radial-gradient(#b8e0d2 10%, transparent 11%), radial-gradient(#d6eadf 10%, transparent 11%);
+            background-size: 30px 30px, 45px 45px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.95;
+        }
+
+        /* 傳統日本顏色變數 */
+        .bg-nippon { background-color: #fbf8f1; } /* 和紙白 */
+        .text-matcha { color: #4A5D23; } /* 抹茶綠 */
+        
+        /* 背景全螢幕遮罩設定 */
+        .bg-overlay {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-nippon text-gray-800 pb-20 overflow-x-hidden relative h-screen w-screen">
+
+    <!-- 底部導航列 -->
+    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-40 pb-safe">
+        <div class="flex justify-around items-center h-16">
+            <button onclick="switchPage('page-itinerary', this)" class="nav-btn text-matcha font-bold flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-calendar-days text-xl mb-1"></i>
+                <span class="text-[10px]">行程表</span>
+            </button>
+            <button onclick="switchPage('page-map', this)" class="nav-btn text-gray-400 hover:text-matcha flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-map-location-dot text-xl mb-1"></i>
+                <span class="text-[10px]">地圖</span>
+            </button>
+            <button onclick="switchPage('page-shopping', this)" class="nav-btn text-gray-400 hover:text-matcha flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-bag-shopping text-xl mb-1"></i>
+                <span class="text-[10px]">逛街</span>
+            </button>
+            <button onclick="switchPage('page-food', this)" class="nav-btn text-gray-400 hover:text-matcha flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-bowl-food text-xl mb-1"></i>
+                <span class="text-[10px]">宵夜</span>
+            </button>
+            <button onclick="switchPage('page-reminders', this)" class="nav-btn text-gray-400 hover:text-matcha flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-clipboard-list text-xl mb-1"></i>
+                <span class="text-[10px]">行前</span>
+            </button>
+            <button onclick="switchPage('page-emergency', this)" class="nav-btn text-gray-400 hover:text-matcha flex flex-col items-center w-full py-2 transition">
+                <i class="fa-solid fa-truck-medical text-xl mb-1"></i>
+                <span class="text-[10px]">求助</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 第一頁：行程目錄 -->
+    <div id="page-itinerary" class="page-content min-h-screen pt-8 px-4 fade-in block">
+        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800 tracking-wider">
+            <i class="fa-solid fa-torii-gate text-red-700 mr-2"></i>2026 九州家族之旅
+        </h1>
+        <div class="space-y-4 pb-8" id="day-list-container">
+            <!-- JS 動態生成 Day 1 ~ Day 10 按鈕 -->
+        </div>
+    </div>
+
+    <!-- 每日行程詳細頁面 (獨立覆蓋頁，取代目錄) -->
+    <div id="day-detail-page" class="fixed inset-0 z-50 hidden bg-overlay flex-col w-full h-full overflow-y-auto">
+        <!-- 頂部導航列 -->
+        <div class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm p-4 flex items-center">
+            <button onclick="closeDayDetail()" class="text-gray-600 hover:text-gray-900 px-3 py-1 bg-gray-100 rounded-full active:scale-95 transition">
+                <i class="fa-solid fa-chevron-left mr-1"></i> 返回目錄
+            </button>
+            <h2 id="modal-title" class="ml-4 text-[16px] font-bold text-gray-800 truncate flex-1">Day X 行程</h2>
+        </div>
+        
+        <!-- 內容區塊 (白底透明遮罩加強閱讀性 70%) -->
+        <div class="flex-1 p-4 pb-24">
+            <div class="bg-white/85 backdrop-blur-md rounded-2xl p-5 shadow-xl mb-6 border border-gray-100">
+                
+                <!-- 概述與 Mapcode -->
+                <div class="mb-5 border-b border-gray-300/60 pb-4">
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center text-lg">
+                        <i class="fa-solid fa-map-location-dot mr-2 text-red-600"></i> 行程概述與導航
+                    </h3>
+                    <div id="modal-overview" class="text-[15px] text-gray-800 leading-relaxed mb-4 space-y-2"></div>
+                    <div class="bg-gray-100/90 p-4 rounded-xl text-[13px] font-mono text-gray-700 whitespace-pre-wrap border border-gray-200 shadow-inner" id="modal-mapcode"></div>
+                </div>
+
+                <!-- 展開收合區塊：上午 -->
+                <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-morning', 'icon-morning')" class="w-full bg-white/95 border border-gray-200 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-gray-50 transition">
+                        <span class="font-bold text-gray-800 flex items-center text-lg"><i class="fa-regular fa-sun mr-3 text-yellow-500 text-xl"></i>上午行程</span>
+                        <i id="icon-morning" class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-morning" class="hidden mt-2 bg-white/90 p-4 rounded-xl border border-gray-100 text-[15px] text-gray-800 leading-relaxed shadow-inner space-y-2"></div>
+                </div>
+
+                <!-- 展開收合區塊：下午 -->
+                <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-afternoon', 'icon-afternoon')" class="w-full bg-white/95 border border-gray-200 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-gray-50 transition">
+                        <span class="font-bold text-gray-800 flex items-center text-lg"><i class="fa-solid fa-cloud-sun mr-3 text-orange-400 text-xl"></i>下午行程</span>
+                        <i id="icon-afternoon" class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-afternoon" class="hidden mt-2 bg-white/90 p-4 rounded-xl border border-gray-100 text-[15px] text-gray-800 leading-relaxed shadow-inner space-y-2"></div>
+                </div>
+
+                <!-- 展開收合區塊：晚上 -->
+                <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-evening', 'icon-evening')" class="w-full bg-white/95 border border-gray-200 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-gray-50 transition">
+                        <span class="font-bold text-gray-800 flex items-center text-lg"><i class="fa-solid fa-moon mr-3 text-indigo-700 text-xl"></i>晚上行程</span>
+                        <i id="icon-evening" class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-evening" class="hidden mt-2 bg-white/90 p-4 rounded-xl border border-gray-100 text-[15px] text-gray-800 leading-relaxed shadow-inner space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二頁：福岡地圖 -->
+    <div id="page-map" class="page-content hidden relative w-full h-screen bg-[#f4ece1] flex justify-center items-center">
+        <!-- 地圖圖片顯示：使用 FUK_final.jpg -->
+        <img src="FUK_final.jpg" 
+             onerror="this.onerror=null; this.src='https://placehold.co/800x1200/f4ece1/333?text=請確保+FUK_final.jpg+在同一資料夾內';" 
+             class="max-w-full max-h-full object-contain" 
+             alt="福岡地圖">
+    </div>
+
+    <!-- 第三頁：福岡逛街參考 -->
+    <div id="page-shopping" class="page-content hidden min-h-screen pb-20 shop-bg relative">
+        <div class="relative z-10 p-4 pt-6">
+            <h2 class="text-2xl font-bold text-center mb-6 text-emerald-900 border-b-2 border-emerald-200 pb-2">購物與咖啡地圖</h2>
+            
+            <div class="space-y-5">
+                <!-- 博多車站區域 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-sm border-t-4 border-blue-500">
+                    <h3 class="font-bold text-xl text-blue-900 mb-2 flex items-center"><i class="fa-solid fa-train mr-2"></i> 博多車站 (JR博多城)</h3>
+                    <p class="text-sm text-gray-600 mb-4 bg-blue-50/50 p-2 rounded">與車站共構的大型商場，集結各大流行服飾、伴手禮及頂級超市，頂樓還有鐵道神社與展望台。</p>
+                    
+                    <h4 class="font-bold text-gray-800 border-b mb-3 pb-1 text-[15px] mt-3">必買伴手禮與美食</h4>
+                    <ul class="text-[14px] space-y-3 text-gray-700">
+                        <li><b class="text-blue-700">The Full Full Hakata：</b> 福岡最具代表性的明太子法國麵包名店，必吃！</li>
+                        <li><b class="text-blue-700">il FORNO del MIGNON：</b> 車站內出爐香氣撲鼻的排隊一口酥脆小可頌，推薦原味、巧克力與明太子口味。</li>
+                        <li><b class="text-blue-700">努努雞 (Yumeyumedori)：</b> 顛覆想像的「冰涼吃」酥脆炸雞翅，是回飯店配啤酒的最佳良伴 (需冷藏)。</li>
+                        <li><b class="text-blue-700">The sons’ talk：</b> 近期爆紅排隊名店，口感鬆軟綿密的生甜甜圈。</li>
+                        <li><b class="text-blue-700">imonne hakata：</b> 超人氣甜點店，精緻的麻糬冰淇淋。</li>
+                        <li><b class="text-blue-700">鈴懸 (博多阪急店)：</b> 福岡發跡的高級和菓子老舖，日式點心精緻優雅，長輩接受度極高。</li>
+                        <li><b class="text-blue-700">如水庵 (博多站前本店)：</b> 百年老舖，以黃豆粉與黑糖蜜結合的超人氣伴手禮「筑紫麻糬」。</li>
+                    </ul>
+
+                    <h4 class="font-bold text-gray-800 border-b mb-3 pb-1 text-[15px] mt-5">人氣咖啡廳與好逛商場</h4>
+                    <ul class="text-[14px] space-y-3 text-gray-700">
+                        <li><b class="text-indigo-600">APOC COFFEE：</b> 距車站步行3分，手沖咖啡與鬆餅極高水準，空間溫馨質感。</li>
+                        <li><b class="text-indigo-600">REC COFFEE (博多丸井店)：</b> 在地知名精品咖啡旗艦店，手沖與拿鐵水準極佳。</li>
+                        <li><b class="text-indigo-600">たんや HAKATA：</b> 超高CP值的烤牛舌定食，出餐快、價格實惠。</li>
+                        <li><b class="text-gray-900">KITTE 博多 & 博多丸井：</b> 年輕潮流聚集地，內有大型 Pokémon Center。</li>
+                        <li><b class="text-gray-900">Yodobashi Camera：</b> 筑紫口旁的超大旗艦電器行，4F還有平價好逛的 LOPIA 超市。</li>
+                        <li><b class="text-gray-900">博多巴士總站：</b> 有超大間大創 (Daiso) 與 Standard Products。</li>
+                        <li><b class="text-gray-900">博多運河城：</b> 結合購物、美食與震撼水舞秀的大型娛樂購物中心。</li>
+                    </ul>
+                </div>
+
+                <!-- 天神商圈區域 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-sm border-t-4 border-green-500">
+                    <h3 class="font-bold text-xl text-green-900 mb-2 flex items-center"><i class="fa-solid fa-store mr-2"></i> 天神地下街與商圈</h3>
+                    <p class="text-sm text-gray-600 mb-4 bg-green-50/50 p-2 rounded">福岡最大商業核心，歐風地下街長廊擁有超過150家精品與雜貨小店。</p>
+                    
+                    <h4 class="font-bold text-gray-800 border-b mb-3 pb-1 text-[15px] mt-3">必買小物、美食與咖啡</h4>
+                    <ul class="text-[14px] space-y-3 text-gray-700">
+                        <li><b class="text-green-700">Pain Stock (天神店)：</b> 享譽福岡！外脆內軟、夾滿濃厚醬汁的明太子法國麵包，必搶神品。</li>
+                        <li><b class="text-green-700">Connect Coffee：</b> 拉花藝術大賽冠軍開設的精緻咖啡館。</li>
+                        <li><b class="text-green-700">FUK COFFEE (天神南)：</b> 以「機場與飛行」為主題，焦糖布丁搭配香草冰淇淋極受歡迎。</li>
+                        <li><b class="text-green-700">Qu'il fait bon 福岡店：</b> 日本超人氣水果塔專賣店，建議外帶回飯店全家分享。</li>
+                        <li><b class="text-green-700">海木 (本店)：</b> 高質感豆皮壽司名店，一口咬下多汁飽滿的高湯豆皮壽司。</li>
+                        <li><b class="text-green-700">abeki：</b> 內行人才知道的極簡質感咖啡小店，手工白色起司蛋糕綿密濃郁。</li>
+                        <li><b class="text-green-700">白金茶房 (Shirokane Sabo)：</b> 隱身綠意中的時尚咖啡館，招牌是口感紮實的經典正統鬆餅。</li>
+                    </ul>
+
+                    <h4 class="font-bold text-gray-800 border-b mb-3 pb-1 text-[15px] mt-5">大型百貨指標</h4>
+                    <ul class="text-[14px] space-y-3 text-gray-700">
+                        <li><b class="text-gray-900">岩田屋 / 福岡三越：</b> 必買 <span class="text-green-700 font-bold">Buly 1803</span> (法國百年客製手繪標籤香氛) 與 <span class="text-green-700 font-bold">福砂屋</span> (經典長崎蛋糕)。</li>
+                        <li><b class="text-gray-900">大丸福岡天神店：</b> 本館地下2F <span class="text-green-700 font-bold">一保堂茶舖</span> 必買頂級抹茶。</li>
+                        <li><b class="text-gray-900">Bic Camera (天神1/2館)：</b> 福岡最大 3C 家電專賣，免稅折價一次買齊。</li>
+                    </ul>
+                </div>
+
+                <!-- 櫛田川端與大濠公園 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-sm border-t-4 border-red-500">
+                    <h3 class="font-bold text-xl text-red-900 mb-2 flex items-center"><i class="fa-brands fa-pagelines mr-2"></i> 傳統甜食與大濠公園</h3>
+                    <ul class="text-[14px] space-y-4 text-gray-700 mt-4">
+                        <li class="bg-red-50/50 p-3 rounded-lg"><b class="text-red-700 block mb-1">川端ぜんざい廣場 (川端通內)：</b> 展示巨大山笠，販售傳統熱紅豆湯烤麻糬，長輩最愛的傳統氛圍。</li>
+                        <li class="bg-red-50/50 p-3 rounded-lg"><b class="text-red-700 block mb-1">鈴懸 本店 (中洲川端站旁)：</b> 絕美的內用喫茶區，招牌和風百匯與水果大福，最高級的下午茶避風港。</li>
+                        <li class="bg-red-50/50 p-3 rounded-lg"><b class="text-red-700 block mb-1">めんたい重 (元祖博多明太重)：</b> 日本第一家明太子料理專賣，明太子昆布飯是福岡美食地標，可外帶避排隊。</li>
+                        <li class="bg-red-50/50 p-3 rounded-lg"><b class="text-red-700 block mb-1">&LOCALS 大濠公園：</b> 湖景第一排景觀咖啡！八女茶與柚子胡椒豆皮壽司必點，賞湖最佳去處。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第四頁：福岡宵夜介紹 -->
+    <div id="page-food" class="page-content hidden min-h-screen pb-20 food-bg relative">
+        <div class="p-4 pt-6 relative z-10">
+            <h2 class="text-2xl font-bold text-center mb-6 text-orange-900 border-b-2 border-orange-300 pb-2">深夜食堂 ‧ 滿腹宵夜</h2>
+            <p class="text-center text-sm font-bold text-orange-700 bg-white/70 p-2 rounded-lg mb-4 inline-block mx-auto w-full backdrop-blur">💡 帶長輩小孩建議直接外帶回民宿/飯店享用最舒適！</p>
+            
+            <div class="space-y-5">
+                <!-- 熊本 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-orange-100">
+                    <h3 class="font-bold text-xl mb-3 flex items-center text-orange-800"><span class="text-2xl mr-2">🐻</span> 熊本市區</h3>
+                    <ul class="text-[14px] space-y-4 text-gray-700">
+                        <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">黑亭拉麵 (下通店)：</b> 濃郁焦香的黑麻油搭配特製豚骨湯頭，令人難以抗拒的罪惡美味，座位緊湊建議外帶。</li>
+                        <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">馬肉料理 菅乃屋 (下通店)：</b> 傳統居酒屋，強烈建議直接外帶極品馬肉刺身拼盤或握壽司，回住宿享受。</li>
+                        <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">紅蘭亭 (下通本店)：</b> 老牌中式名店，必嚐熊本特有的「太平燕」春雨湯麵與香酥中華炸雞。</li>
+                        <li><b class="text-orange-700">桂花拉麵 (本店)：</b> 歷史悠久的熊本拉麵，推薦外帶招牌「太肉麺」，厚切滷豬肉令人垂涎。</li>
+                    </ul>
+                </div>
+
+                <!-- 界別府 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-teal-100">
+                    <h3 class="font-bold text-xl mb-3 flex items-center text-teal-800"><span class="text-2xl mr-2">♨️</span> 別府溫泉周邊</h3>
+                    <ul class="text-[14px] space-y-4 text-gray-700">
+                        <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">東洋軒 (步行350m)：</b> 距離飯店超近的大分名店！必吃「元祖鳥天」(雞肉天婦羅)，外帶回飯店吃最酥脆。</li>
+                        <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">龜正くるくる寿司：</b> 永遠在排隊的神級迴轉壽司，魚料新鮮厚實，提早抽號碼牌外帶是唯一真理。</li>
+                        <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">六盛 (北浜店)：</b> 著名別府冷麵名店，Q彈麵條與清爽湯頭，候位時間長建議外帶。</li>
+                        <li><b class="text-teal-700 block mb-1">甘味茶屋：</b> 充滿大分鄉土風情，古樸寬敞，大分特色扁麵湯 (団子汁) 與傳統點心，暖胃暖心。</li>
+                    </ul>
+                </div>
+
+                <!-- 福岡 -->
+                <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-red-100">
+                    <h3 class="font-bold text-xl mb-3 flex items-center text-red-800"><span class="text-2xl mr-2">🍜</span> 福岡激戰區</h3>
+                    <ul class="text-[14px] space-y-4 text-gray-700">
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">黑毛和牛 武蔵 (天神分店)：</b> 人潮相對少，和牛蓋飯三吃，滿滿高級肉汁帶回飯店慢慢品嚐。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">一蘭拉麵 (本社總本店)：</b> 中洲地標！單人座位不適合家庭，強烈建議買伴手禮麵條回飯店煮。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">博多一雙 (博多站東)：</b> 濃厚起泡系豚骨拉麵，重度豚骨愛好者朝聖地，濃烈香氣建議外帶。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">Shin-Shin 拉麵：</b> 屋台發跡的極致美味，特製炒拉麵與一口煎餃，座位擁擠建議外帶。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">麵屋兼虎：</b> 福岡沾麵王者！極度濃郁的魚介豚骨湯頭，愛吃辣必點「辛辛魚沾麵」，極具衝擊力。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">天ぷらのひらお (天神店)：</b> ㄇ字型吧台超人氣現炸天婦羅，無限供應柚子魷魚塩辛。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">元祖長浜屋：</b> 在地最經典老字號！迅速上桌的純粹長濱風豚骨拉麵。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">博多屋台 老爹 (中洲屋台)：</b> 體驗道地屋台氛圍，炒拉麵、關東煮與明太子歐姆蛋，但座位擠不適合久坐。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">博多かわ屋 (雞皮)：</b> 耗時多日反覆燒烤逼出油脂的特製烤雞皮，外酥內Q，老饕一次20串起跳！</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">博多とりかわ大臣：</b> 同時提供「醬燒」與「鹽味」雞皮，對比強烈CP值高，免費附贈高麗菜與熱雞湯。</li>
+                        <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">新時代：</b> 社群爆紅！超壯觀「名物傳串」金字塔炸雞皮，單價極低，酥脆涮嘴，宵夜首選。</li>
+                        <li><b class="text-red-700 block mb-1">串燒.拉麵 鳥雞研究團：</b> 結合炭火燒鳥與濃厚地雞白湯拉麵的神仙組合，氣氛熱絡的頂級享受。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第五頁：行前提醒 -->
+    <div id="page-reminders" class="page-content hidden min-h-screen pb-20 bg-[#f4f7f6]">
+        <div class="p-4 pt-8">
+            <h2 class="text-2xl font-bold text-center mb-8 text-teal-900 border-b-2 border-teal-200 pb-3">行前提醒與必備作業</h2>
+            
+            <div class="grid grid-cols-1 gap-5">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-car-side"></i></div>
+                        <h3 class="font-bold text-lg text-gray-900">自駕證件 (最重要)</h3>
+                    </div>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">務必攜帶所有駕駛人的<b class="text-red-600">「台灣駕照正本」</b>與<b class="text-red-600">「日文譯本」</b>。缺一不可，否則絕對無法取車。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-file-shield"></i></div>
+                        <h3 class="font-bold text-lg text-gray-900">海外醫療保險加碼</h3>
+                    </div>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">大家族出遊，請全員加保含<b class="text-teal-700">「海外突發疾病醫療」</b>的保險（需含門診與急診實支實付）。可在填寫 VJW 時直接透過官方推薦連結投保，為老小增添保障。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-baby-carriage"></i></div>
+                        <h3 class="font-bold text-lg text-gray-900">大輪徑避震傘車</h3>
+                    </div>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">九州不少景點有石板路或碎石地，建議攜帶大輪徑且避震佳的輕便傘車，摺疊後體積小才放得進休旅車後車廂。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <h3 class="font-bold text-lg text-gray-900">手機必備 5 大 APPS</h3>
+                    </div>
+                    <ul class="text-gray-600 text-[15px] space-y-3">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>Visit Japan Web:</b> 入境用 QR Code，10人份可由一人統一截圖管理。</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>GO (タクシー):</b> 福岡市區叫計程車神器，可綁卡，3台車分頭呼叫不手忙腳亂。</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>ロケスマ (Rokesuma):</b> 找最近的多功能廁所與平面停車場。</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>tenki.jp:</b> 日本氣象協會官方 App，即時掌握降雨。</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>VoiceTra:</b> 語音翻譯，出示「不吃牛肉」字卡極度實用。</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第六頁：緊急求助 -->
+    <div id="page-emergency" class="page-content hidden min-h-screen pb-20 bg-[#fff5f5]">
+        <div class="p-4 pt-8">
+            <h2 class="text-2xl font-bold text-center mb-8 text-red-900 border-b-2 border-red-200 pb-3">緊急求助與聯絡資訊</h2>
+            
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-red-100 mb-5">
+                <h3 class="font-bold text-xl text-red-600 mb-5 flex items-center">
+                    <i class="fa-solid fa-truck-medical mr-2 text-2xl"></i> 醫療與緊急報案
+                </h3>
+                <div class="space-y-4">
+                    <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                        <div class="flex justify-between items-center mb-1">
+                            <div class="text-[15px] font-bold text-gray-800">日本緊急醫療求助熱線</div>
+                            <div class="font-black text-2xl text-red-700 tracking-wider">#7119</div>
+                        </div>
+                        <div class="text-[14px] text-gray-600 mt-1 leading-relaxed">在當地若遇到突發身體不適但不確定是否叫救護車，可在手機撥打此專線，提供 24 小時多國語言醫療建議。</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-4 rounded-xl text-center border border-red-100">
+                            <div class="font-black text-3xl text-red-700 mb-1">110</div>
+                            <div class="text-[16px] font-bold text-gray-800">日本警察</div>
+                            <div class="text-[13px] text-gray-600 mt-1">犯罪、事故<br>人身安全危險</div>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-xl text-center border border-red-100">
+                            <div class="font-black text-3xl text-red-700 mb-1">119</div>
+                            <div class="text-[16px] font-bold text-gray-800">救護車 / 消防</div>
+                            <div class="text-[13px] text-gray-600 mt-1">急病、受傷<br>火災</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-orange-100">
+                <h3 class="font-bold text-xl text-orange-700 mb-5 flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> 一般協助與翻譯
+                </h3>
+                <div class="space-y-5">
+                    <div class="border-b pb-4 border-gray-100">
+                        <div class="font-bold text-gray-800 text-lg">NativeCall</div>
+                        <div class="text-[14px] text-gray-600 mt-1 leading-relaxed">非緊急電話。打給飯店、餐廳、鐵路失物櫃台時的翻譯通話層。你講中文或英文，對方會聽到日文翻譯。</div>
+                    </div>
+                    <div class="border-b pb-4 border-gray-100 flex flex-col items-start gap-1">
+                        <div class="font-bold text-gray-800 text-[16px]">JNTO Visitor Hotline</div>
+                        <div class="text-[14px] text-gray-600 mb-1">生病、災害或不知找誰時。24H支援中英日韓。</div>
+                        <div class="text-lg font-black text-orange-600">050-3816-2787</div>
+                    </div>
+                    <div class="flex flex-col items-start gap-1">
+                        <div class="font-bold text-gray-800 text-[16px]">JR 遺失物協助</div>
+                        <div class="text-[14px] text-gray-600 mb-1">準備好日期、地點、票號與特徵後撥打。</div>
+                        <div class="text-lg font-black text-orange-600">050-2016-1603</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 日期詳細資料與背景圖配置
+        const daysData = [
+            {
+                id: 1,
+                title: "Day 1 (9/25 五)：初抵九州・入住熊本",
+                bg: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?q=80&w=800",
+                overview: "• 今晚入住：熊本市區包棟<br>• 整體動線：14:30 桃園出發 ➔ 17:40 抵達熊本機場 (KMJ) ➔ 車上墊胃 ➔ 民宿 Check-in ➔ 晚餐。<br>• ⚠️ 取車注意：務必備妥台灣駕照正本與日文譯本，出示預約編號 143181669。",
+                mapcode: "熊本西區住宿：\n7-chōme-66-15 Hanazono, Nishi Ward, Kumamoto",
+                morning: "無行程 (下午班機抵達)",
+                afternoon: "• 14:30 - 17:40：搭乘中華航空 (CI) TPE-KMJ<br>• 抵達後辦理租車取車手續。",
+                evening: "• 車上墊胃：機場買 Pork Tamago 飯糰（天草大王雞肉飯糰，位於美食餐飲棟）。<br>• 晚餐：建議就近於 24H 超市 (TRIAL)、すき家 (Sukiya) 簡單解決。"
+            },
+            {
+                id: 2,
+                title: "Day 2 (9/26 六)：熊本城下町・和服與市區漫步",
+                bg: "https://images.unsplash.com/photo-1620228775267-27e1f4dd5765?q=80&w=800",
+                overview: "• 今晚入住：熊本市區包棟（連泊）<br>• 整體動線：早餐 ➔ 水前寺成趣園 ➔ 午餐 (城彩苑) ➔ 熊本城 ➔ 下午茶 ➔ AMU PLAZA ➔ 晚餐。",
+                mapcode: "- 水前寺成趣園停車場：29 433 464*18\n- 櫻之馬場城彩苑/熊本城：29 489 021*54",
+                morning: "• 早餐：WEST (烏龍麵) 或 Joyfull。<br>• 10:00：Wa-collection報到租浴衣，至水前寺成趣園拍照。<br>• 11:00：移動至櫻之馬場城彩苑。<br>• 雨天備案：熊本熊廣場 (看部長)、現代美術館。",
+                afternoon: "• 11:30 - 14:30：城彩苑內午餐 (熊本燒、馬肉可樂餅)，觀賞武將表演。<br>• 16:00前：歸還浴衣並參觀熊本城 (天守閣有電梯)。<br>• 下午茶：Chez le pain 買明日早餐，或 The sons’ talk (生甜甜圈)。",
+                evening: "• 前往 AMU PLAZA 熊本逛逛。<br>• 晚餐：6F めっけもん迴轉壽司 (主打星鰻甜蝦，現場抽號碼牌) 或 7F 豬排勝烈亭。<br>• 推薦採買：黑蒜油拉麵料理包 (鶴屋周邊)。"
+            },
+            {
+                id: 3,
+                title: "Day 3 (9/27 日)：高千穗峽絕景・前進星野別府",
+                bg: "https://images.unsplash.com/photo-1610444391629-1c9918206277?q=80&w=800",
+                overview: "• 今晚入住：界 別府 (星野集團)<br>• ⚠️ 行李全數上車<br>• 動線：熊本出發 ➔ 高千穗鐵道 ➔ 高千穗峽 ➔ 午餐 ➔ 阿蘇草千里 ➔ 界別府。",
+                mapcode: "- 高千穗車站停車場：330 634 321*47\n- 高千穗峽(御塩井)：330 711 760*41\n- 草千里收費停車場：256 456 832*85",
+                morning: "• 07:00：熊本出發。早餐吃昨日麵包。<br>• 09:00：抵達高千穗車站排隊購票，搭乘「天照鐵道」第一班小火車。<br>• 11:15 - 12:15：高千穗峽，吃元祖流水麵 (建議11:00排隊)。<br>• 12:20：真名井瀑布拍照。",
+                afternoon: "• 午餐候補：高千穗牛「和」餐廳或在地鄉土料理。<br>• 14:00 - 16:00：前往阿蘇草千里。<br>• 16:00 - 16:40：草千里散步拍照欣賞大草原。<br>• 16:40 - 18:30：直奔別府 (車程約1.5小時)。<br>• 備案：若遇雨可直奔飯店享受設施。",
+                evening: "• 18:30前：抵達「界 別府」Check-in。<br>• 19:30：享用界別府懷石料理晚餐 (已預約，幼兒費用現場付)。"
+            },
+            {
+                id: 4,
+                title: "Day 4 (9/28 一)：別府地獄巡禮・由布院童話小鎮",
+                bg: "https://images.unsplash.com/photo-1621508216315-bd35d8869cde?q=80&w=800",
+                overview: "• 今晚入住：界 別府（連泊）<br>• 動線：飯店早餐 ➔ 地獄巡禮 ➔ 午餐 ➔ 由布院 ➔ 別府纜車 ➔ 返回界別府 ➔ 晚餐。",
+                mapcode: "- 地獄蒸工房：46 522 403*80\n- 由布院NPC24H停車場：269 359 555*48\n- 龜正壽司：46 543 652*88",
+                morning: "• 早餐：界別府早餐 (已預約)。<br>• 上午：地獄巡禮 (海地獄、灶地獄、岡本屋布丁)。<br>• 午餐：地獄蒸工房鐵輪 (建議11:00現場排隊)。",
+                afternoon: "• 12:30 - 15:30：由布院童話小鎮散策。必吃推薦：Milch半熟布丁、B-speak蛋糕捲、金賞可樂餅、TELATO 抹茶冰淇淋 (No.1~No.7濃度)、橡實之森。<br>• 15:30 - 17:00：別府纜車 (視時間彈性調整，最晚17:00離開)。",
+                evening: "• 返回界別府休息享受設施。<br>• 晚餐建議 (外帶)：步行350m至「東洋軒」買炸雞天婦羅，或開車至「龜正壽司」(提早出發外帶)。"
+            },
+            {
+                id: 5,
+                title: "Day 5 (9/29 二)：九州自然動物園・前進福岡市區",
+                bg: "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800",
+                overview: "• 今晚入住：三井花園酒店福岡中洲<br>• ⚠️ 行李全數上車<br>• 動線：動物園 ➔ 午餐 ➔ 福岡卸行李 ➔ 博多商圈 ➔ 晚餐。",
+                mapcode: "- 九州自然動物園：46 664 168*72\n- 三井花園中洲：電話 092-263-5531",
+                morning: "• 早餐：便利店 / MOS / 麥當勞。<br>• 08:15：離開別府，08:45 抵達動物園搶劃「叢林巴士」最早場次(09:15 或 09:30)。<br>• 09:15 - 12:00：搭巴士餵獅子猛獸，並參觀步行區小動物。",
+                afternoon: "• 午餐：動物園內 Salvia 餐廳或途經福岡用餐。<br>• 下午：車程2小時前往福岡飯店卸行李。<br>• 博多商圈逛街：買明日早餐 (Full Full 明太子麵包或 MIGNON 可頌)，配眼鏡 (OWNDAYS/JINS) 或逛 Yodobashi。",
+                evening: "• 晚餐：大東園燒肉 本店 (已預約 18:00)。<br>• 餐後：川端通商店街買水果，或繼續逛街。"
+            },
+            {
+                id: 6,
+                title: "Day 6 (9/30 三)：海之中道水族館・海濱公園親近自然",
+                bg: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?q=80&w=800",
+                overview: "• 今晚入住：三井花園酒店福岡中洲 (連泊)<br>• 動線：水族館 ➔ 午餐 ➔ 海濱公園 ➔ 還車 ➔ 晚餐。",
+                mapcode: "- 海之中道水族館：13 553 836*75\n- Nissan還車(博多站南店)：092-472-2323",
+                morning: "• 07:30：吃昨日買的麵包當早餐。<br>• 08:30：開車經都市高速直達海洋世界 (必準時防塞車)。<br>• 09:30起看秀：10:40海豹、11:00海豚海獅(會濕)、11:45沙丁魚風暴、12:20企鵝歸來。",
+                afternoon: "• 午餐：水族館內 Reilly 海景餐廳。<br>• 下午：移車至海濱公園，租腳踏車直奔「動物之森」餵袋鼠、水豚。<br>• 16:30：司機先送乘客回飯店 (車程45分)，然後去加油、還車 (19:00 前完成)。",
+                evening: "• 晚餐：燒肉垂榕 Yakiniku Benjamin (藥院燒肉姊妹店)，已預約 18:30。"
+            },
+            {
+                id: 7,
+                title: "Day 7 (10/1 四)：天神商圈探索・鳥栖 Outlet 血拼",
+                bg: "https://images.unsplash.com/photo-1555529771-835f59fc5efe?q=80&w=800",
+                overview: "• 今晚入住：三井花園酒店福岡中洲 (連泊)<br>• 🚃 今日起使用大眾交通與計程車。<br>• 整天逛街行程，可自由分組參加。",
+                mapcode: "今日搭乘大眾運輸及計程車為主",
+                morning: "• 08:00 - 09:00：飯店早餐。<br>• 09:00 - 10:00：搭地鐵前往天神商圈，探索地下街、岩田屋 (Buly香氛) 與 Bic Camera。<br>• 推薦：Pain Stock 明太子麵包、FUK COFFEE。",
+                afternoon: "• 11:00 - 16:30：搭計程車前往 鳥栖 Premium Outlets 進行全天候血拼購物。<br>• 午餐：Outlet 美食廣場分組吃，或回市區吃 Mutsukado Cafe (明太子吐司)、Marugetta 等。",
+                evening: "• 17:30 - 19:30：搭計程車返回博多車站。<br>• 晚餐：分組吃。可選遊食豚彩、拉麵們 (ShinShin, 麵屋兼虎) 等。"
+            },
+            {
+                id: 8,
+                title: "Day 8 (10/2 五)：太宰府天滿宮・柳川水鄉遊船",
+                bg: "https://images.unsplash.com/photo-1624639947854-3401fb8cb738?q=80&w=800",
+                overview: "• 今晚入住：三井花園酒店福岡中洲 (連泊)<br>• 動線：早餐 ➔ 太宰府 ➔ 柳川午餐與遊船 ➔ 返回市區 ➔ 稚加榮晚餐。",
+                mapcode: "需在地鐵站購買西鐵套票 (天神站出發)",
+                morning: "• 08:00：早餐分組吃 (推薦外帶「元祖博多めんたい重」，距飯店8分)。<br>• 09:00 - 12:00：搭西鐵至太宰府參拜。必吃現烤梅枝餅、天山草莓麻糬大福。<br>• 雨天備案：九州國立博物館。",
+                afternoon: "• 11:15 - 12:00：搭車前往柳川。<br>• 午餐：柳川 若松屋 (百年老字號蒸籠鰻魚飯，排隊)。<br>• 14:00 - 16:00：柳川水鄉遊船 (需防曬防蚊)。",
+                evening: "• 17:30 - 19:30：搭車返回福岡市區。<br>• 晚餐：博多料亭 稚加榮 (福岡本店)，已預約 18:30。"
+            },
+            {
+                id: 9,
+                title: "Day 9 (10/3 六)：博多古蹟巡禮・麵包超人與福岡夜景",
+                bg: "https://images.unsplash.com/photo-1681283685514-6a84eb1eeb4a?q=80&w=800",
+                overview: "• 今晚入住：三井花園酒店福岡中洲 (連泊)<br>• (今日整天行程可自由分組參加)",
+                mapcode: "市區大眾運輸",
+                morning: "• 08:00：博多魚がし市場會館店享用海鮮早餐 (07:00開)。<br>• 09:00 - 12:00：寺廟巡禮 (博多千年門 ➔ 承天寺 ➔ 聖福寺 ➔ 東長寺 ➔ 櫛田神社 ➔ 川端通)。",
+                afternoon: "• 12:00 - 13:00：天神商圈逛街與分組午餐。<br>• 13:30 - 16:00：麵包超人博物館。<br>• 16:00：大濠公園賞湖景 (可去 &Locals 吃豆皮壽司) 或百道海濱公園吹海風。",
+                evening: "• 晚餐：博多水炊鍋 新三浦 博多本店，套餐已預約 18:00-20:00。<br>• 20:15 - 21:15：登上福岡塔 (Fukuoka Tower) 俯瞰璀璨夜景。"
+            },
+            {
+                id: 10,
+                title: "Day 10 (10/4 日)：LaLaport 鋼彈朝聖・機場滿載歸國",
+                bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=800",
+                overview: "• 11:00 Check-out 行李隨行<br>• 動線：LaLaport 福岡 ➔ 機場免稅店 ➔ 班機回台。<br>• 班機：FUK-TPE 19:10 - 20:35",
+                mapcode: "搭乘計程車前往商場與機場",
+                morning: "• 早餐：飯店早餐 (小野の離れ)。<br>• 11:00 辦理退房，攜帶全數行李搭 3 台計程車直奔 LaLaport 寄放行李。",
+                afternoon: "• 全天：逛 LaLaport 福岡，朝聖 1:1 巨型鋼彈。<br>• 午餐：LaLaport 3樓美食街。<br>• 下午前往福岡機場報到並狂掃免稅店 (NY Perfect Cheese、北菓樓、茅乃舍高湯包等)。",
+                evening: "• 晚餐：機場內用餐或享用飛機餐。<br>• 19:10 搭乘班機平安滿載歸國。"
+            }
+        ];
+
+        // 渲染 Day 列表按鈕
+        const listContainer = document.getElementById('day-list-container');
+        daysData.forEach(day => {
+            const btn = document.createElement('button');
+            btn.className = "w-full text-left bg-white p-5 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex justify-between items-center hover:bg-gray-50 active:scale-95 transition-all";
+            btn.innerHTML = `
+                <span class="font-bold text-gray-800 text-[17px]">${day.title}</span>
+                <i class="fa-solid fa-chevron-right text-matcha bg-gray-50 p-2 rounded-full"></i>
+            `;
+            btn.onclick = () => openDayDetail(day.id);
+            listContainer.appendChild(btn);
+        });
+
+        // 打開每日詳細資料 (獨立頁面)
+        function openDayDetail(dayId) {
+            const day = daysData.find(d => d.id === dayId);
+            if(!day) return;
+
+            // 填入資料
+            document.getElementById('modal-title').innerText = day.title;
+            document.getElementById('modal-overview').innerHTML = day.overview;
+            document.getElementById('modal-mapcode').innerText = day.mapcode;
+            document.getElementById('acc-morning').innerHTML = day.morning;
+            document.getElementById('acc-afternoon').innerHTML = day.afternoon;
+            document.getElementById('acc-evening').innerHTML = day.evening;
+
+            const detailPage = document.getElementById('day-detail-page');
+            detailPage.style.backgroundImage = `url('${day.bg}')`;
+            
+            // 重置所有手風琴為收起狀態
+            ['morning', 'afternoon', 'evening'].forEach(time => {
+                document.getElementById(`acc-${time}`).classList.add('hidden');
+                document.getElementById(`icon-${time}`).classList.remove('rotate-180');
+            });
+
+            // 隱藏行程表目錄，顯示詳細頁
+            document.getElementById('page-itinerary').classList.add('hidden');
+            detailPage.classList.remove('hidden');
+            detailPage.classList.add('flex', 'slide-right');
+            
+            // 回到頂部
+            detailPage.scrollTop = 0;
+        }
+
+        // 關閉每日詳細資料
+        function closeDayDetail() {
+            const detailPage = document.getElementById('day-detail-page');
+            detailPage.classList.remove('flex', 'slide-right');
+            detailPage.classList.add('hidden');
+            
+            // 重新顯示行程表目錄
+            document.getElementById('page-itinerary').classList.remove('hidden');
+        }
+
+        // 切換主頁面 (導航列)
+        function switchPage(pageId, btnElement) {
+            // 隱藏所有主頁面區塊與詳細頁面
+            document.querySelectorAll('.page-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById('day-detail-page').classList.add('hidden');
+            
+            // 顯示目標頁面
+            const target = document.getElementById(pageId);
+            target.classList.remove('hidden');
+            target.classList.add('fade-in');
+            
+            // 如果切換回行程表，也要確保行程目錄是顯示的
+            if (pageId === 'page-itinerary') {
+                target.classList.add('block');
+            }
+
+            // 更新導航列狀態
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-matcha', 'font-bold');
+                btn.classList.add('text-gray-400');
+            });
+            btnElement.classList.remove('text-gray-400');
+            btnElement.classList.add('text-matcha', 'font-bold');
+        }
+
+        // 展開收合手風琴邏輯
+        function toggleAccordion(contentId, iconId) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+                // 平滑滾動確保內容可見
+                setTimeout(() => {
+                    content.parentElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 50);
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+    </script>
+</body>
+</html>
