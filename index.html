@@ -113,36 +113,36 @@
                         <i class="fa-solid fa-map-location-dot mr-2 text-red-600"></i> 行程概述與導航
                     </h3>
                     <div id="modal-overview" class="text-base text-gray-800 leading-relaxed mb-4 space-y-2"></div>
-                    <div class="bg-gray-100/90 p-4 rounded-xl text-base font-mono text-gray-700 whitespace-pre-wrap border border-gray-200 shadow-inner" id="modal-mapcode"></div>
+                    <div class="bg-gray-100/50 p-4 rounded-xl text-base font-mono text-gray-700 whitespace-pre-wrap border border-gray-200 shadow-inner" id="modal-mapcode"></div>
                 </div>
 
                 <!-- 展開收合區塊：上午 -->
-<div class="mb-3">
-<button onclick="toggleAccordion('acc-morning', 'icon-morning')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
-<span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-regular fa-sun mr-3 text-yellow-600 text-xl"></i>上午行程</span>
-<i id="icon-morning" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
-</button>
-<div id="acc-morning" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
-</div>
-​<!-- 展開收合區塊：下午 -->
-<div class="mb-3">
-<button onclick="toggleAccordion('acc-afternoon', 'icon-afternoon')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
-<span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-cloud-sun mr-3 text-orange-600 text-xl"></i>下午行程</span>
-<i id="icon-afternoon" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
-</button>
-<div id="acc-afternoon" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
-</div>
-​<!-- 展開收合區塊：晚上 -->
-<div class="mb-3">
-<button onclick="toggleAccordion('acc-evening', 'icon-evening')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
-<span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-moon mr-3 text-indigo-700 text-xl"></i>晚上行程</span>
-<i id="icon-evening" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
-</button>
-<div id="acc-evening" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
-</div>
+                <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-morning', 'icon-morning')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
+                        <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-regular fa-sun mr-3 text-yellow-600 text-xl"></i>上午行程</span>
+                        <i id="icon-morning" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-morning" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
+                </div>
+            ​<!-- 展開收合區塊：下午 -->
+                <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-afternoon', 'icon-afternoon')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
+                    <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-cloud-sun mr-3 text-orange-600 text-xl"></i>下午行程</span>
+                    <i id="icon-afternoon" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-afternoon" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
+                </div>
+            ​<!-- 展開收合區塊：晚上 -->
+                    <div class="mb-3">
+                        <button onclick="toggleAccordion('acc-evening', 'icon-evening')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
+                            <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-moon mr-3 text-indigo-700 text-xl"></i>晚上行程</span>
+                            <i id="icon-evening" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
+                        </button>
+                        <div id="acc-evening" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
     <!-- 第二頁：福岡地圖 -->
     <div id="page-map" class="page-content hidden relative w-full h-screen bg-[#f4ece1] flex justify-center items-center">
@@ -230,7 +230,7 @@
     <div id="page-food" class="page-content hidden min-h-screen pb-20 food-bg relative">
         <div class="p-4 pt-6 relative z-10">
             <h2 class="text-2xl font-bold text-center mb-6 text-orange-900 border-b-2 border-orange-300 pb-2">深夜食堂 ‧ 滿腹宵夜</h2>
-            <p class="text-center text-sm font-bold text-orange-700 bg-white/70 p-2 rounded-lg mb-4 inline-block mx-auto w-full backdrop-blur">💡 帶長輩小孩建議直接外帶回民宿/飯店享用最舒適！</p>
+            <p class="text-center text-base font-bold text-orange-700 bg-white/70 p-2 rounded-lg mb-4 inline-block mx-auto w-full backdrop-blur">💡 帶長輩小孩建議直接外帶回民宿/飯店享用最舒適！</p>
             
             <div class="space-y-5">
                 <!-- 熊本 -->
@@ -373,20 +373,16 @@
                         <div class="text-lg font-black text-orange-600">050-3816-2787</div>
                     </div>
                     <div class="flex flex-col items-start gap-1">
-                        <div class="font-bold text-gray-800 text-base">九州JR 遺失物協助</div>
-                        <div class="text-base text-gray-600 mb-1">準備好日期、地點、票號與特徵後撥打。</div>
-                        <div class="text-lg font-black text-orange-600">050-2016-1603</div>
-                    </div>
+                        <div class="font-bold text-gray-800 text-base">熊本縣外國人支援台灣專線</div>
+                        <div class="text-base text-gray-600 mb-1">熊本當地專屬的台灣人諮詢熱線，可協助應對在熊本期間的醫療與急難狀況。</div>
+                        <div class="text-lg font-black text-orange-600">080-9999-4405</div>
+                    </div> 
                     <div class="flex flex-col items-start gap-1">
                         <div class="font-bold text-gray-800 text-base">福岡醫療翻譯服務</div>
                         <div class="text-base text-gray-600 mb-1">24小時全年無休，支援中文。提供尋找九州當地醫療機構的建議，以及看診時的即時電話翻譯。</div>
                         <div class="text-lg font-black text-orange-600">092-733-5429</div>
                     </div>
-                    <div class="flex flex-col items-start gap-1">
-                        <div class="font-bold text-gray-800 text-base">熊本縣外國人支援台灣專線</div>
-                        <div class="text-base text-gray-600 mb-1">熊本當地專屬的台灣人諮詢熱線，可協助應對在熊本期間的醫療與急難狀況。</div>
-                        <div class="text-lg font-black text-orange-600">080-9999-4405</div>
-                    </div>
+                    
                     <div class="flex flex-col items-start gap-1">
                         <div class="font-bold text-gray-800 text-base">九州JR遺失物協助</div>
                         <div class="text-base text-gray-600 mb-1">營業時間為 10:00–16:00。專職處理 JR九州 範圍內的遺失物（另有線上 LINE 協尋系統）。</div>
