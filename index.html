@@ -100,7 +100,7 @@
             <button onclick="closeDayDetail()" class="text-gray-600 hover:text-gray-900 px-3 py-1 bg-gray-100 rounded-full active:scale-95 transition">
                 <i class="fa-solid fa-chevron-left mr-1"></i> 返回目錄
             </button>
-            <h2 id="modal-title" class="ml-4 text-[16px] font-bold text-gray-800 truncate flex-1">Day X 行程</h2>
+            <h2 id="modal-title" class="ml-4 text-lg font-bold text-gray-800 truncate flex-1">Day X 行程</h2>
         </div>
         
         <!-- 內容區塊 (白底透明遮罩加強閱讀性 70%) -->
@@ -113,7 +113,7 @@
                         <i class="fa-solid fa-map-location-dot mr-2 text-red-600"></i> 行程概述與導航
                     </h3>
                     <div id="modal-overview" class="text-base text-gray-800 leading-relaxed mb-4 space-y-2"></div>
-                    <div class="bg-gray-100/90 p-4 rounded-xl text-sm font-mono text-gray-700 whitespace-pre-wrap border border-gray-200 shadow-inner" id="modal-mapcode"></div>
+                    <div class="bg-gray-100/90 p-4 rounded-xl text-base font-mono text-gray-700 whitespace-pre-wrap border border-gray-200 shadow-inner" id="modal-mapcode"></div>
                 </div>
 
                 <!-- 展開收合區塊：上午 -->
@@ -238,7 +238,7 @@
                 <!-- 熊本 -->
                 <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-orange-100">
                     <h3 class="font-bold text-xl mb-3 flex items-center text-orange-800"><span class="text-2xl mr-2">🐻</span> 熊本市區</h3>
-                    <ul class="text-[14px] space-y-4 text-gray-700">
+                    <ul class="text-base space-y-4 text-gray-700">
                         <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">黑亭拉麵 (下通店)：</b> 濃郁焦香的黑麻油搭配特製豚骨湯頭，令人難以抗拒的罪惡美味，座位緊湊建議外帶。</li>
                         <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">馬肉料理 菅乃屋 (下通店)：</b> 傳統居酒屋，強烈建議直接外帶極品馬肉刺身拼盤或握壽司，回住宿享受。</li>
                         <li class="pb-3 border-b border-gray-200"><b class="text-orange-700">紅蘭亭 (下通本店)：</b> 老牌中式名店，必嚐熊本特有的「太平燕」春雨湯麵與香酥中華炸雞。</li>
@@ -249,7 +249,7 @@
                 <!-- 界別府 -->
                 <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-teal-100">
                     <h3 class="font-bold text-xl mb-3 flex items-center text-teal-800"><span class="text-2xl mr-2">♨️</span> 別府溫泉周邊</h3>
-                    <ul class="text-[14px] space-y-4 text-gray-700">
+                    <ul class="text-base space-y-4 text-gray-700">
                         <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">東洋軒 (步行350m)：</b> 距離飯店超近的大分名店！必吃「元祖鳥天」(雞肉天婦羅)，外帶回飯店吃最酥脆。</li>
                         <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">龜正くるくる寿司：</b> 永遠在排隊的神級迴轉壽司，魚料新鮮厚實，提早抽號碼牌外帶是唯一真理。</li>
                         <li class="pb-3 border-b border-gray-200"><b class="text-teal-700 block mb-1">六盛 (北浜店)：</b> 著名別府冷麵名店，Q彈麵條與清爽湯頭，候位時間長建議外帶。</li>
@@ -260,7 +260,7 @@
                 <!-- 福岡 -->
                 <div class="bg-white/95 backdrop-blur p-5 rounded-2xl shadow-lg border border-red-100">
                     <h3 class="font-bold text-xl mb-3 flex items-center text-red-800"><span class="text-2xl mr-2">🍜</span> 福岡激戰區</h3>
-                    <ul class="text-[14px] space-y-4 text-gray-700">
+                    <ul class="text-base space-y-4 text-gray-700">
                         <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">黑毛和牛 武蔵 (天神分店)：</b> 人潮相對少，和牛蓋飯三吃，滿滿高級肉汁帶回飯店慢慢品嚐。</li>
                         <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">一蘭拉麵 (本社總本店)：</b> 中洲地標！單人座位不適合家庭，強烈建議買伴手禮麵條回飯店煮。</li>
                         <li class="pb-3 border-b border-gray-100"><b class="text-red-700 block mb-1">博多一雙 (博多站東)：</b> 濃厚起泡系豚骨拉麵，重度豚骨愛好者朝聖地，濃烈香氣建議外帶。</li>
@@ -290,7 +290,7 @@
                         <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-car-side"></i></div>
                         <h3 class="font-bold text-lg text-gray-900">自駕證件 (最重要)</h3>
                     </div>
-                    <p class="text-gray-600 text-[15px] leading-relaxed">務必攜帶所有駕駛人的<b class="text-red-600">「台灣駕照正本」</b>與<b class="text-red-600">「日文譯本」</b>。缺一不可，否則絕對無法取車。</p>
+                    <p class="text-gray-600 text-base leading-relaxed">務必攜帶所有駕駛人的<b class="text-red-600">「台灣駕照正本」</b>與<b class="text-red-600">「日文譯本」</b>。缺一不可，否則絕對無法取車。</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
@@ -298,7 +298,7 @@
                         <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-file-shield"></i></div>
                         <h3 class="font-bold text-lg text-gray-900">海外醫療保險加碼</h3>
                     </div>
-                    <p class="text-gray-600 text-[15px] leading-relaxed">大家族出遊，請全員加保含<b class="text-teal-700">「海外突發疾病醫療」</b>的保險（需含門診與急診實支實付）。可在填寫 VJW 時直接透過官方推薦連結投保，為老小增添保障。</p>
+                    <p class="text-gray-600 text-base leading-relaxed">大家族出遊，請全員加保含<b class="text-teal-700">「海外突發疾病醫療」</b>的保險（需含門診與急診實支實付）。可在填寫 VJW 時直接透過官方推薦連結投保，為老小增添保障。</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
@@ -306,7 +306,7 @@
                         <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-baby-carriage"></i></div>
                         <h3 class="font-bold text-lg text-gray-900">大輪徑避震傘車</h3>
                     </div>
-                    <p class="text-gray-600 text-[15px] leading-relaxed">九州不少景點有石板路或碎石地，建議攜帶大輪徑且避震佳的輕便傘車，摺疊後體積小才放得進休旅車後車廂。</p>
+                    <p class="text-gray-600 text-base leading-relaxed">九州不少景點有石板路或碎石地，建議攜帶大輪徑且避震佳的輕便傘車，摺疊後體積小才放得進休旅車後車廂。</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500">
@@ -314,7 +314,7 @@
                         <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 flex justify-center items-center text-xl mr-4"><i class="fa-solid fa-mobile-screen-button"></i></div>
                         <h3 class="font-bold text-lg text-gray-900">手機必備 5 大 APPS</h3>
                     </div>
-                    <ul class="text-gray-600 text-[15px] space-y-3">
+                    <ul class="text-gray-600 text-base space-y-3">
                         <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>Visit Japan Web:</b> 入境用 QR Code，10人份可由一人統一截圖管理。</span></li>
                         <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>GO (タクシー):</b> 福岡市區叫計程車神器，可綁卡，3台車分頭呼叫不手忙腳亂。</span></li>
                         <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i><span><b>ロケスマ (Rokesuma):</b> 找最近的多功能廁所與平面停車場。</span></li>
@@ -342,19 +342,19 @@
                             <div class="text-[15px] font-bold text-gray-800">日本緊急醫療求助熱線</div>
                             <div class="font-black text-2xl text-red-700 tracking-wider">#7119</div>
                         </div>
-                        <div class="text-[14px] text-gray-600 mt-1 leading-relaxed">在當地若遇到突發身體不適但不確定是否叫救護車，可在手機撥打此專線，提供 24 小時多國語言醫療建議。</div>
+                        <div class="text-base text-gray-600 mt-1 leading-relaxed">在當地若遇到突發身體不適但不確定是否叫救護車，可在手機撥打此專線，提供 24 小時多國語言醫療建議。</div>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-red-50 p-4 rounded-xl text-center border border-red-100">
                             <div class="font-black text-3xl text-red-700 mb-1">110</div>
-                            <div class="text-[16px] font-bold text-gray-800">日本警察</div>
-                            <div class="text-[13px] text-gray-600 mt-1">犯罪、事故<br>人身安全危險</div>
+                            <div class="text-base font-bold text-gray-800">日本警察</div>
+                            <div class="text-base text-gray-600 mt-1">犯罪、事故<br>人身安全危險</div>
                         </div>
                         <div class="bg-red-50 p-4 rounded-xl text-center border border-red-100">
                             <div class="font-black text-3xl text-red-700 mb-1">119</div>
-                            <div class="text-[16px] font-bold text-gray-800">救護車 / 消防</div>
-                            <div class="text-[13px] text-gray-600 mt-1">急病、受傷<br>火災</div>
+                            <div class="text-base font-bold text-gray-800">救護車 / 消防</div>
+                            <div class="text-base text-gray-600 mt-1">急病、受傷<br>火災</div>
                         </div>
                     </div>
                 </div>
@@ -367,16 +367,16 @@
                 <div class="space-y-5">
                     <div class="border-b pb-4 border-gray-100">
                         <div class="font-bold text-gray-800 text-lg">NativeCall</div>
-                        <div class="text-[14px] text-gray-600 mt-1 leading-relaxed">非緊急電話。打給飯店、餐廳、鐵路失物櫃台時的翻譯通話層。你講中文或英文，對方會聽到日文翻譯。</div>
+                        <div class="text-base text-gray-600 mt-1 leading-relaxed">非緊急電話。打給飯店、餐廳、鐵路失物櫃台時的翻譯通話層。你講中文或英文，對方會聽到日文翻譯。</div>
                     </div>
                     <div class="border-b pb-4 border-gray-100 flex flex-col items-start gap-1">
-                        <div class="font-bold text-gray-800 text-[16px]">JNTO Visitor Hotline</div>
-                        <div class="text-[14px] text-gray-600 mb-1">生病、災害或不知找誰時。24H支援中英日韓。</div>
+                        <div class="font-bold text-gray-800 text-base">JNTO Visitor Hotline</div>
+                        <div class="text-base text-gray-600 mb-1">生病、災害或不知找誰時。24H支援中英日韓。</div>
                         <div class="text-lg font-black text-orange-600">050-3816-2787</div>
                     </div>
                     <div class="flex flex-col items-start gap-1">
-                        <div class="font-bold text-gray-800 text-[16px]">JR 遺失物協助</div>
-                        <div class="text-[14px] text-gray-600 mb-1">準備好日期、地點、票號與特徵後撥打。</div>
+                        <div class="font-bold text-gray-800 text-base">JR 遺失物協助</div>
+                        <div class="text-base text-gray-600 mb-1">準備好日期、地點、票號與特徵後撥打。</div>
                         <div class="text-lg font-black text-orange-600">050-2016-1603</div>
                     </div>
                 </div>
@@ -495,7 +495,7 @@
             const btn = document.createElement('button');
             btn.className = "w-full text-left bg-white p-5 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex justify-between items-center hover:bg-gray-50 active:scale-95 transition-all";
             btn.innerHTML = `
-                <span class="font-bold text-gray-800 text-[17px]">${day.title}</span>
+                <span class="font-bold text-gray-800 text-lg">${day.title}</span>
                 <i class="fa-solid fa-chevron-right text-matcha bg-gray-50 p-2 rounded-full"></i>
             `;
             btn.onclick = () => openDayDetail(day.id);
