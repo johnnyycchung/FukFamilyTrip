@@ -54,7 +54,7 @@
 <body class="bg-nippon text-gray-800 pb-20 overflow-x-hidden relative h-screen w-screen">
 
     <!-- 底部導航列 -->
-    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-40 pb-safe">
+    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-[60] pb-safe">
         <div class="flex justify-around items-center h-16">
             <button onclick="switchPage('page-itinerary', this)" class="nav-btn text-matcha font-bold flex flex-col items-center w-full py-2 transition">
                 <i class="fa-solid fa-calendar-days text-xl mb-1"></i>
@@ -325,6 +325,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- 第六頁：緊急求助 -->
     <div id="page-emergency" class="page-content hidden min-h-screen pb-20 bg-[#fff5f5]">
@@ -543,7 +544,10 @@
         }
 
         // 切換主頁面 (導航列)
+        
         function switchPage(pageId, btnElement) {
+            document.getElementById('day-detail-page').classList.add('hidden'); // 新增這行：切換頁面時強制關閉詳細頁
+            
             // 隱藏所有主頁面區塊與詳細頁面
             document.querySelectorAll('.page-content').forEach(el => {
                 el.classList.add('hidden');
