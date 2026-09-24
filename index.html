@@ -133,14 +133,22 @@
                     <div id="acc-afternoon" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
                 </div>
             ​<!-- 展開收合區塊：晚上 -->
-                    <div class="mb-3">
-                        <button onclick="toggleAccordion('acc-evening', 'icon-evening')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
-                            <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-moon mr-3 text-indigo-700 text-xl"></i>晚上行程</span>
-                            <i id="icon-evening" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
-                        </button>
-                        <div id="acc-evening" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
-                        </div>
+                 <div class="mb-3">
+                    <button onclick="toggleAccordion('acc-evening', 'icon-evening')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
+                         <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-moon mr-3 text-indigo-700 text-xl"></i>晚上行程</span>
+                         <i id="icon-evening" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-evening" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
                     </div>
+                 </div>
+            ​<!-- 展開收合區塊：飯店資訊 -->
+                 <div class="mb-3" id="block-hotel-info" style="display: none;">
+                    <button onclick="toggleAccordion('acc-hotel-info', 'icon-hotel-info')" class="w-full bg-white/50 border border-white/30 p-4 rounded-xl flex justify-between items-center shadow-sm active:bg-white/50 transition">
+                         <span class="font-bold text-gray-900 flex items-center text-lg drop-shadow-sm"><i class="fa-solid fa-bell-concierge mr-3 text-cyan-700 text-xl"></i>飯店設施與節目</span>
+                         <i id="icon-hotel-info" class="fa-solid fa-chevron-down text-gray-700 transition-transform duration-300"></i>
+                     </button>
+                    <div id="acc-hotel-info" class="hidden mt-2 bg-white/20 p-4 rounded-xl border border-white/40 text-base font-medium text-gray-900 leading-relaxed shadow-inner space-y-2"></div>
+                 </div>
                 </div>
             </div>
 
@@ -429,7 +437,8 @@
                 mapcode: "MAPCODE\n- 高千穗車站停車場：330 634 321*47\n- 高千穗峽(御塩井)：330 711 760*41\n- 草千里收費停車場：256 456 832*85",
                 morning: "07:00：熊本出發。早餐吃昨日麵包。<br>09:00：抵達高千穗車站排隊購票，搭乘「天照鐵道」第一班小火車。<br>11:15 - 12:15：高千穗峽，吃元祖流水麵 (建議11:00排隊)。<br>12:20：真名井瀑布拍照。",
                 afternoon: "• 午餐候補：高千穗牛「和」餐廳或在地鄉土料理。<br>Plan A：雖然沒有火山但看看草原（總車程~3小時）<br>14:00 - 16:00：前往阿蘇草千里。<br>16:00 - 16:40：草千里散步拍照欣賞大草原。<br>16:40 - 18:30：直奔別府 (車程約1.5小時)。<br>Plan B：直接回高級飯店享受啊（車程約 2 小時15分）",
-                evening: "18:30前：抵達「界 別府」Check-in。<br>19:30：享用界別府懷石料理晚餐 (已預約，幼兒費用現場付)。"
+                evening: "18:30前：抵達「界 別府」Check-in。<br>19:30：享用界別府懷石料理晚餐 (已預約，幼兒費用現場付)。",
+                hotel_info: "【設施】<br>• 大浴場：15:00–01:00 / 05:00–11:00<br>• 足湯與手湯(海景庭園)：15:00–22:00 / 07:00–12:00<br>• 圖書閱覽室：15:00–24:00 / 07:00–12:00<br><br>【節目】<br>• 溫泉街夜市：19:30–21:30 (地獄拉麵提供至 21:00)<br>• 當地特色表演-湯治搖滾樂隊 (ジャグバンド)：21:15<br>• 別府溫泉體操：07:00"
             },
             {
                 id: 4,
@@ -439,7 +448,8 @@
                 mapcode: "MAPCODE\n- 地獄蒸工房：46 522 403*80\n- 由布院NPC24H停車場：269 359 555*48\n- 龜正壽司：46 543 652*88",
                 morning: "08:45：飯店早餐(已預約)。<br>• 上午：地獄巡禮 (海地獄、灶地獄、岡本屋布丁)。<br>• 午餐：地獄蒸工房鐵輪 (建議11:00現場排隊)。",
                 afternoon: "12:30 - 15:30：由布院童話小鎮。必吃推薦：Milch半熟布丁、B-speak蛋糕捲、金賞可樂餅、TELATO 抹茶冰淇淋 (No.1~No.7濃度)、橡實之森。<br>•15:30 - 17:00：別府纜車 (視時間彈性調整，最晚17:00離開)。",
-                evening: "• 返回界別府休息享受設施。<br>• 晚餐建議 (外帶)：步行350m至「東洋軒」買炸雞天婦羅，或開車至「龜正壽司」(提早出發外帶)。"
+                evening: "• 返回界別府休息享受設施。<br>• 晚餐建議 (外帶)：步行350m至「東洋軒」買炸雞天婦羅，或開車至「龜正壽司」(提早出發外帶)。",
+                hotel_info: "【設施】<br>• 大浴場：15:00–01:00 / 05:00–11:00<br>• 足湯與手湯：15:00–22:00 / 07:00–12:00<br>• 圖書閱覽室：15:00–24:00 / 07:00–12:00<br><br>【節目】<br>• 溫泉街夜市：19:30–21:30 (地獄拉麵提供至 21:00)<br>• 湯治搖滾樂隊表演：21:15<br>• 別府溫泉體操：07:00"
             },
             {
                 id: 5,
@@ -449,7 +459,8 @@
                 mapcode: "MAPCODE\n- 九州自然動物園：46 664 168*72\n- 三井花園中洲：電話 092-263-5531",
                 morning: "• 早餐：便利店 / MOS / 麥當勞。<br>08:15：離開別府，08:45 抵達動物園搶劃「叢林巴士」最早場次(09:15 或 09:30)。<br>•09:15 - 12:00：搭巴士餵獅子猛獸，並參觀步行區小動物。",
                 afternoon: "• 午餐：動物園內 Salvia 餐廳或途經福岡用餐。<br>• 下午：車程2小時前往福岡飯店卸行李。<br>• 博多商圈逛街：買明日早餐 (DACOMECCA麵包或 MIGNON 可頌)，配眼鏡 (OWNDAYS/JINS) 或逛 Yodobashi。",
-                evening: "• 晚餐：18:00大東園燒肉本店，已預約。<br>• 餐後：川端通商店街買水果，或繼續逛街。"
+                evening: "• 晚餐：18:00大東園燒肉本店，已預約。<br>• 餐後：川端通商店街買水果，或繼續逛街。",
+                hotel_info: "【設施】<br>• 頂樓大浴場 (13F)：15:00–01:00 / 05:00–09:00<br>• 大浴場休息區 (13F)：15:00–01:00 / 05:00–09:00<br>• 自助洗衣機 (13F)：24小時開放<br>• 自動販賣機/製冰機 (13F)：24小時開放<br>• 送洗服務：10:00 前交至櫃檯，17:00 後取件"
             },
             {
                 id: 6,
@@ -459,7 +470,8 @@
                 mapcode: "MAPCODE\n- 海之中道水族館：13 553 836*75\n- Nissan還車(博多站南店)：092-472-2323",
                 morning: "07:30：吃昨日買的麵包當早餐。<br>08:30：開車經都市高速直達海洋世界 (必準時防塞車)。<br>09:30起看秀：10:40海豹、11:00海豚海獅(會濕)、11:45沙丁魚風暴、12:20企鵝歸來。",
                 afternoon: "• 午餐：水族館內 Reilly 海景餐廳。<br>• 下午：移車至海濱公園，租腳踏車直奔「動物之森」餵袋鼠、水豚。<br>•16:30：司機先送乘客回飯店 (車程45分)，然後去加油、還車 (19:00 前完成)。",
-                evening: "• 晚餐：18:30燒肉垂榕 Yakiniku Benjamin (藥院燒肉姊妹店)，已預約。"
+                evening: "• 晚餐：18:30燒肉垂榕 Yakiniku Benjamin (藥院燒肉姊妹店)，已預約。",
+                hotel_info: "【設施】<br>• 頂樓大浴場 (13F)：15:00–01:00 / 05:00–09:00<br>• 大浴場休息區 (13F)：15:00–01:00 / 05:00–09:00<br>• 自助洗衣機 (13F)：24小時開放<br>• 自動販賣機/製冰機 (13F)：24小時開放<br>• 送洗服務：10:00 前交至櫃檯，17:00 後取件
             },
             {
                 id: 7,
@@ -469,7 +481,8 @@
                 mapcode: "今日搭乘大眾運輸及計程車為主",
                 morning: "08:00 - 09:00：飯店早餐。<br>09:00 - 10:00：搭地鐵前往天神商圈，探索地下街、岩田屋 (Buly香氛) 與 Bic Camera。<br>• 推薦：Pain Stock 明太子麵包、FUK COFFEE。",
                 afternoon: "11:00 - 16:30：搭計程車前往 鳥栖 Premium Outlets 進行全天候血拼購物。<br>• 午餐：Outlet 美食廣場分組吃，或回市區吃 Mutsukado Cafe (明太子吐司)、Marugetta 等。",
-                evening: "17:30 - 19:30：搭計程車返回博多車站。<br>• 晚餐：分組吃。可選遊食豚彩、拉麵們 (ShinShin, 麵屋兼虎) 等。"
+                evening: "17:30 - 19:30：搭計程車返回博多車站。<br>• 晚餐：分組吃。可選遊食豚彩、拉麵們 (ShinShin, 麵屋兼虎) 等。",
+                hotel_info: "【設施】<br>• 頂樓大浴場 (13F)：15:00–01:00 / 05:00–09:00<br>• 大浴場休息區 (13F)：15:00–01:00 / 05:00–09:00<br>• 自助洗衣機 (13F)：24小時開放<br>• 自動販賣機/製冰機 (13F)：24小時開放<br>• 送洗服務：10:00 前交至櫃檯，17:00 後取件
             },
             {
                 id: 8,
@@ -479,7 +492,8 @@
                 mapcode: "需在地鐵站購買西鐵套票 (天神站出發)",
                 morning: "08:00：早餐可分組吃 (推薦外帶「元祖博多めんたい重」，距飯店8分)。<br>•09:00 - 12:00：搭西鐵至太宰府參拜。必吃現烤梅枝餅、天山草莓麻糬大福。<br>• 雨天備案：九州國立博物館。",
                 afternoon: "11:15 - 12:00：搭車前往柳川。<br>• 午餐：柳川 若松屋 (百年老字號蒸籠鰻魚飯，排隊)。<br>14:00 - 16:00：柳川水鄉遊船 (需防曬防蚊)。",
-                evening: "17:30 - 19:30：搭車返回福岡市區。<br>• 晚餐：18:30博多料亭 稚加榮 (福岡本店)，已預約。"
+                evening: "17:30 - 19:30：搭車返回福岡市區。<br>• 晚餐：18:30博多料亭 稚加榮 (福岡本店)，已預約。",
+                hotel_info: "【設施】<br>• 頂樓大浴場 (13F)：15:00–01:00 / 05:00–09:00<br>• 大浴場休息區 (13F)：15:00–01:00 / 05:00–09:00<br>• 自助洗衣機 (13F)：24小時開放<br>• 自動販賣機/製冰機 (13F)：24小時開放<br>• 送洗服務：10:00 前交至櫃檯，17:00 後取件
             },
             {
                 id: 9,
@@ -489,7 +503,8 @@
                 mapcode: "市區大眾運輸",
                 morning: "08:00：博多魚がし市場會館享用海鮮早餐 (07:00開)。<br>09:00 - 12:00：寺廟巡禮 (博多千年門 ➔ 承天寺 ➔ 聖福寺 ➔ 東長寺 ➔ 櫛田神社 ➔ 川端通)。",
                 afternoon: "12:00 - 13:00：天神商圈逛街與分組午餐。<br>13:30 - 16:00：麵包超人博物館。<br>16:00：大濠公園賞湖景 (可去 &Locals 吃豆皮壽司) 或百道海濱公園吹海風。",
-                evening: "• 晚餐：18:00博多水炊鍋 新三浦 博多本店，已預約。<br>20:15 - 21:15：登上福岡塔 (Fukuoka Tower) 俯瞰璀璨夜景。"
+                evening: "• 晚餐：18:00博多水炊鍋 新三浦 博多本店，已預約。<br>20:15 - 21:15：登上福岡塔 (Fukuoka Tower) 俯瞰璀璨夜景。",
+                hotel_info: "【設施】<br>• 頂樓大浴場 (13F)：15:00–01:00 / 05:00–09:00<br>• 大浴場休息區 (13F)：15:00–01:00 / 05:00–09:00<br>• 自助洗衣機 (13F)：24小時開放<br>• 自動販賣機/製冰機 (13F)：24小時開放<br>• 送洗服務：10:00 前交至櫃檯，17:00 後取件
             },
             {
                 id: 10,
@@ -528,6 +543,11 @@
             document.getElementById('acc-morning').innerHTML = day.morning;
             document.getElementById('acc-afternoon').innerHTML = day.afternoon;
             document.getElementById('acc-evening').innerHTML = day.evening;
+            document.getElementById('acc-hotel-info').innerHTML = data.hotel_info || "";
+
+            // 判斷隱藏或顯示：若無資料則自動隱藏該按鈕區塊
+            document.getElementById('block-hotel-info').style.display = data.hotel_info ? "block" : "none";
+
 
             const detailPage = document.getElementById('day-detail-page');
             detailPage.style.backgroundImage = `url('${day.bg}')`;
