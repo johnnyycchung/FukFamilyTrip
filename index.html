@@ -543,10 +543,10 @@
             document.getElementById('acc-morning').innerHTML = day.morning;
             document.getElementById('acc-afternoon').innerHTML = day.afternoon;
             document.getElementById('acc-evening').innerHTML = day.evening;
-            document.getElementById('acc-hotel-info').innerHTML = data.hotel_info || "";
+            document.getElementById('acc-hotel-info').innerHTML = day.hotel_info || "";
 
             // 判斷隱藏或顯示：若無資料則自動隱藏該按鈕區塊
-            document.getElementById('block-hotel-info').style.display = data.hotel_info ? "block" : "none";
+            document.getElementById('block-hotel-info').style.display = day.hotel_info ? "block" : "none";
 
 
             const detailPage = document.getElementById('day-detail-page');
