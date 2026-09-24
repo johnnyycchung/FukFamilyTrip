@@ -554,7 +554,7 @@
             detailPage.style.backgroundImage = `url('${day.bg}')`;
             
             // 重置所有手風琴為收起狀態
-            ['morning', 'afternoon', 'evening'].forEach(time => {
+            ['morning', 'afternoon', 'evening', 'hotel-info'].forEach(time => {
                 document.getElementById(`acc-${time}`).classList.add('hidden');
                 document.getElementById(`icon-${time}`).classList.remove('rotate-180');
             });
